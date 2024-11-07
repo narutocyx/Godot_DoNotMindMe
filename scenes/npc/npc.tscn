@@ -30,3 +30,11 @@ afgfdsgartuyu"
 debug_enabled = true
 debug_use_custom = true
 debug_path_custom_color = Color(0.581491, 0.000251628, 0.583085, 1)
+
+[node name="PlayerDetect" type="Node2D" parent="."]
+
+[node name="RayCast2D" type="RayCast2D" parent="PlayerDetect"]
+position = Vector2(1, 0)
+rotation = -1.5708
+target_position = Vector2(0, 400)
+collision_mask = 5

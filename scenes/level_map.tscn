@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=4 uid="uid://bwdekjn7o1v7n"]
+[gd_scene load_steps=7 format=4 uid="uid://bwdekjn7o1v7n"]
 
 [ext_resource type="TileSet" uid="uid://0righh56hhhy" path="res://assets/level_tiles_bup.tres" id="1_3ys2h"]
 [ext_resource type="TileSet" uid="uid://brwqaw2oh12xv" path="res://assets/level_tiles.tres" id="1_bvb1x"]
 [ext_resource type="PackedScene" uid="uid://cq0u4cyq2phfu" path="res://scenes/npc/npc.tscn" id="2_16unr"]
 [ext_resource type="PackedScene" uid="uid://ced65gg31hrth" path="res://scenes/waypoint/way_point.tscn" id="4_yrq67"]
+[ext_resource type="PackedScene" uid="uid://b1cm2aou5k1jm" path="res://scenes/player/player.tscn" id="5_a6lmu"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_cf5i5"]
 vertices = PackedVector2Array(1758, 1182, 1758, 290, 2082, 739, 2082, 1635, 1884.88, 1379.07, 1378, 1501.75, 1762.84, 1501.98, 1762.16, 1634, 1182, 1634, 1182, 1314, 1378, 1377.93, 2270, 542, 2270, 158.93, 2658.96, 158.063, 2658.03, 994, 2338, 994, 674, 1058.05, 157.93, 1058.94, 157.07, 670, 606, 670, 674, 802, 2658, 1311, 2658, 1634.94, 2206, 1634.05, 2338, 1311, 2206, 739, 2146, 542, 2146, 157.023, 862.07, 157.969, 1634, 290, 863.078, 542, 1634, 610, 1122, 610, 418, 1378, 418, 1634, 158, 1634, 158, 1182, 798, 1378, 798, 1182, 1058, 1314, 606, 546, 158, 546, 158, 158, 738, 158, 738, 542, 1058, 1634.94, 542, 1634.05, 542, 1501.88, 798, 1500.88, 1885.88, 1635, 1122, 1182, 798, 802)
@@ -36,9 +37,6 @@ tile_set = ExtResource("1_3ys2h")
 position = Vector2(663, 375)
 patrol_points = NodePath("../Path1")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(618, 368)
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_cf5i5")
 
@@ -62,3 +60,6 @@ position = Vector2(1013, 403)
 
 [node name="Waypoint5" parent="Path1" instance=ExtResource("4_yrq67")]
 position = Vector2(1317, 410)
+
+[node name="Player" parent="." instance=ExtResource("5_a6lmu")]
+position = Vector2(302, 320)

@@ -7,14 +7,17 @@ const SPEED: float = 160.0
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var label: Label = $Label
 @onready var nav_agent: NavigationAgent2D = $NavAgent
+@onready var player_detect: Node2D = $PlayerDetect
 
 var _waypoints: Array = []
 var _current_wp: int = 0
+var _player_ref: Player
  
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	set_physics_process(false)
 	create_wp()
+	_player_ref = get_tree().get_first_node_in_group("player")
 	call_deferred("set_physics_process", true)
 
 func create_wp() -> void:
@@ -27,8 +30,12 @@ func _physics_process(delta: float) -> void:
 		nav_agent.target_position = get_global_mouse_position()
 	update_navigation()
 	process_patrolling()
+	raycast_to_player()
 	set_label()
-		
+	
+func raycast_to_player() -> void:
+	player_detect.look_at(_player_ref.global_position)
+	
 func set_label():
 	var s: String = ""
 	s += "DONE:%s\n" % nav_agent.is_navigation_finished()
