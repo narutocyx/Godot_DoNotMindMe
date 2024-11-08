@@ -5,6 +5,7 @@ const SPEED: float = 160.0
 enum ENEMY_STATE { PATROLLING, CHASING, SEARCHING }
 
 @export var patrol_points: NodePath
+@onready var warning: Sprite2D = $Warning
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var label: Label = $Label
@@ -78,14 +79,21 @@ func update_state() -> void:
 	var can_see = can_see_player()
 	if can_see == true:
 		new_state = ENEMY_STATE.CHASING
-	else:
-		new_state = ENEMY_STATE.PATROLLING
+	elif can_see == false and new_state == ENEMY_STATE.CHASING:
+		new_state = ENEMY_STATE.SEARCHING
 	
 	set_state(new_state)
 	
 func set_state(new_state: ENEMY_STATE) -> void:
 	if new_state == _state:
 		return
+	
+	if _state == ENEMY_STATE.SEARCHING:
+		warning.hide()
+		
+	if new_state == ENEMY_STATE.SEARCHING:
+		warning.show()
+	
 	_state = new_state
 
 #movement
@@ -93,6 +101,8 @@ func update_movement() -> void:
 	match _state:
 		ENEMY_STATE.PATROLLING:
 			process_patrolling()
+		ENEMY_STATE.SEARCHING:
+			process_searching()
 		ENEMY_STATE.CHASING:
 			process_chasing()
 			
@@ -111,7 +121,11 @@ func process_chasing() -> void:
 	
 func set_nav_to_player() -> void:
 	nav_agent.target_position = _player_ref.global_position
-
+	
+func process_searching() -> void:
+	if nav_agent.is_navigation_finished() == true:
+		set_state(ENEMY_STATE.PATROLLING)
+	
 #debug
 func set_label():
 	var s: String = ""
