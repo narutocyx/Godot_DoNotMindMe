@@ -5,4 +5,5 @@
 [node name="Waypoint" type="Marker2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("1_3p4d5")

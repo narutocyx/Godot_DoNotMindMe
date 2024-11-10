@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cq0u4cyq2phfu"]
+[gd_scene load_steps=10 format=3 uid="uid://cq0u4cyq2phfu"]
 
 [ext_resource type="Script" path="res://scenes/npc/npc.gd" id="1_6ldy1"]
 [ext_resource type="Texture2D" uid="uid://buvbw4sqhcq2w" path="res://assets/images/soldier1_gun.png" id="1_iwodp"]
@@ -47,7 +47,10 @@ _data = {
 "alert": SubResource("Animation_78hn0")
 }
 
-[node name="NPC" type="CharacterBody2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_g7imc"]
+radius = 15.0333
+
+[node name="NPC" type="CharacterBody2D" groups=["npc"]]
 collision_layer = 0
 script = ExtResource("1_6ldy1")
 
@@ -59,6 +62,7 @@ offset = Vector2(10, 0)
 shape = SubResource("CircleShape2D_mbpvn")
 
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_left = -52.0
 offset_top = -101.0
 offset_right = 56.0
@@ -69,13 +73,14 @@ fdasgagftw25
 afgfdsgartuyu"
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
-debug_enabled = true
+avoidance_enabled = true
 debug_use_custom = true
 debug_path_custom_color = Color(0.581491, 0.000251628, 0.583085, 1)
 
 [node name="PlayerDetect" type="Node2D" parent="."]
 
 [node name="RayCast2D" type="RayCast2D" parent="PlayerDetect"]
+visible = false
 position = Vector2(1, 0)
 rotation = -1.5708
 target_position = Vector2(0, 400)
@@ -99,4 +104,13 @@ stream = ExtResource("4_ux61i")
 wait_time = 1.5
 autostart = true
 
+[node name="HitArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+shape = SubResource("CircleShape2D_g7imc")
+
+[connection signal="velocity_computed" from="NavAgent" to="." method="_on_nav_agent_velocity_computed"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="body_entered" from="HitArea" to="." method="_on_hit_area_body_entered"]

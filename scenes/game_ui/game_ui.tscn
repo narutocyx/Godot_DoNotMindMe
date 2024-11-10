@@ -1,0 +1,74 @@
+[gd_scene load_steps=4 format=3 uid="uid://de0uxja5if2dk"]
+
+[ext_resource type="LabelSettings" uid="uid://cu6w3k0ldp2u1" path="res://lg_d_blue_32.tres" id="1_1ycgc"]
+[ext_resource type="Script" path="res://scenes/game_ui/game_ui.gd" id="1_coldr"]
+[ext_resource type="LabelSettings" uid="uid://d1j8mwf1hxeqw" path="res://lg_l_green_48.tres" id="2_6cfr3"]
+
+[node name="GameUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_coldr")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="ScoreLabel" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "0/100"
+label_settings = ExtResource("1_1ycgc")
+
+[node name="ExitLabel" type="Label" parent="MarginContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "GO TO EXIT!!"
+label_settings = ExtResource("1_1ycgc")
+
+[node name="TimeLabel" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "1000s"
+label_settings = ExtResource("1_1ycgc")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0745098, 0.337255, 0.345098, 0.32549)
+
+[node name="GameOverLabel" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -118.5
+offset_top = -11.5
+offset_right = 118.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Well done you took xx seconds"
+label_settings = ExtResource("2_6cfr3")

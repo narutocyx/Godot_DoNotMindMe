@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://bwdekjn7o1v7n"]
+[gd_scene load_steps=11 format=4 uid="uid://bwdekjn7o1v7n"]
 
 [ext_resource type="TileSet" uid="uid://0righh56hhhy" path="res://assets/level_tiles_bup.tres" id="1_3ys2h"]
 [ext_resource type="TileSet" uid="uid://brwqaw2oh12xv" path="res://assets/level_tiles.tres" id="1_bvb1x"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b1cm2aou5k1jm" path="res://scenes/player/player.tscn" id="5_a6lmu"]
 [ext_resource type="PackedScene" uid="uid://ek2tljxba2uc" path="res://scenes/pickup/pick_up.tscn" id="6_dssdu"]
 [ext_resource type="PackedScene" uid="uid://bdgyn8ophe0gm" path="res://scenes/exit/exit.tscn" id="8_hlift"]
+[ext_resource type="PackedScene" uid="uid://de0uxja5if2dk" path="res://scenes/game_ui/game_ui.tscn" id="9_yvu2g"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_cf5i5"]
 vertices = PackedVector2Array(1758, 1182, 1758, 290, 2082, 739, 2082, 1635, 1884.88, 1379.07, 1378, 1501.75, 1762.84, 1501.98, 1762.16, 1634, 1182, 1634, 1182, 1314, 1378, 1377.93, 2270, 542, 2270, 158.93, 2658.96, 158.063, 2658.03, 994, 2338, 994, 674, 1058.05, 157.93, 1058.94, 157.07, 670, 606, 670, 674, 802, 2658, 1311, 2658, 1634.94, 2206, 1634.05, 2338, 1311, 2206, 739, 2146, 542, 2146, 157.023, 862.07, 157.969, 1634, 290, 863.078, 542, 1634, 610, 1122, 610, 418, 1378, 418, 1634, 158, 1634, 158, 1182, 798, 1378, 798, 1182, 1058, 1314, 606, 546, 158, 546, 158, 158, 738, 158, 738, 542, 1058, 1634.94, 542, 1634.05, 542, 1501.88, 798, 1500.88, 1885.88, 1635, 1122, 1182, 798, 802)
@@ -87,3 +88,7 @@ collision_mask = 4
 
 [node name="Exit" parent="." instance=ExtResource("8_hlift")]
 position = Vector2(673, 177)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GameUI" parent="CanvasLayer" instance=ExtResource("9_yvu2g")]

@@ -26,6 +26,7 @@ enum ENEMY_STATE { PATROLLING, CHASING, SEARCHING }
 @onready var ray_cast_2d: RayCast2D = $PlayerDetect/RayCast2D
 @onready var gasp_sound: AudioStreamPlayer2D = $GaspSound
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var shoot_timer: Timer = $ShootTimer
 
 var _waypoints: Array = []
 var _current_wp: int = 0
@@ -37,6 +38,10 @@ func _ready() -> void:
 	set_physics_process(false)
 	create_wp()
 	_player_ref = get_tree().get_first_node_in_group("player")
+	call_deferred("late_setup")
+	
+func late_setup():
+	await get_tree().physics_frame
 	call_deferred("set_physics_process", true)
 
 func create_wp() -> void:
@@ -83,9 +88,11 @@ func update_navigation() -> void:
 		#精灵朝向下一个路径目标点
 		sprite_2d.look_at(next_path_position)
 		#计算速度的朝向和大小
-		velocity = global_position.direction_to(next_path_position) * SPEED[_state]
+		#velocity = global_position.direction_to(next_path_position) * SPEED[_state]
+		var ini_v = global_position.direction_to(next_path_position) * SPEED[_state]
 		#移动
-		move_and_slide()
+		nav_agent.set_velocity(ini_v)
+		#move_and_slide()
 	
 #state
 func update_state() -> void:
@@ -167,3 +174,15 @@ func _on_shoot_timer_timeout() -> void:
 	if _state != ENEMY_STATE.CHASING:
 		return
 	shoot()
+	
+#stop all actions
+func stop_action() -> void:
+	set_physics_process(false)
+	shoot_timer.stop()
+
+func _on_hit_area_body_entered(body: Node2D) -> void:
+	SignalManager.on_game_over.emit()
+
+func _on_nav_agent_velocity_computed(safe_velocity: Vector2) -> void:
+	velocity = safe_velocity
+	move_and_slide()

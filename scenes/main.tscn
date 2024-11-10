@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://c77xgnm0mhrwu"]
+
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_sgqhj"]
+[ext_resource type="LabelSettings" uid="uid://chpa6tlerw34g" path="res://lg_l_orange_64.tres" id="1_shf5b"]
+[ext_resource type="Texture2D" uid="uid://bsycprggr4yl0" path="res://assets/images/pill1.png" id="2_tr5a1"]
+[ext_resource type="Texture2D" uid="uid://bxpr5xbvs87u6" path="res://assets/images/pill2.png" id="3_557nd"]
+[ext_resource type="Texture2D" uid="uid://buvbw4sqhcq2w" path="res://assets/images/soldier1_gun.png" id="4_aypfe"]
+[ext_resource type="Texture2D" uid="uid://c3ow6mi6byny0" path="res://assets/images/survivor1_gun.png" id="5_gvik3"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sgqhj")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.456603, 0.457065, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "PRESS SPACE TO PLAY"
+label_settings = ExtResource("1_shf5b")
+
+[node name="Pill1" type="Sprite2D" parent="."]
+position = Vector2(867, 157)
+rotation = 1.71678
+texture = ExtResource("2_tr5a1")
+
+[node name="Pill2" type="Sprite2D" parent="."]
+position = Vector2(246, 132)
+rotation = -2.57932
+texture = ExtResource("3_557nd")
+
+[node name="Soldier1Gun" type="Sprite2D" parent="."]
+position = Vector2(285, 459)
+rotation = -1.5809
+texture = ExtResource("4_aypfe")
+
+[node name="Survivor1Gun" type="Sprite2D" parent="."]
+position = Vector2(838, 479)
+rotation = -0.659092
+texture = ExtResource("5_gvik3")

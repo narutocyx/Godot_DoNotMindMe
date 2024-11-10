@@ -3,6 +3,8 @@ extends Area2D
 const BOOM: PackedScene = preload("res://scenes/boom/boom.tscn")
 const SPEED: float = 250.0
 
+@onready var timer: Timer = $Timer
+
 var _dir_of_travel: Vector2 = Vector2.ZERO
 var _target_position: Vector2 = Vector2.ZERO
 
@@ -29,4 +31,8 @@ func _on_timer_timeout() -> void:
 	create_boom()
 
 func _on_body_entered(body: Node2D) -> void:
-	create_boom()
+	if body.is_in_group("player") == true:
+		timer.stop()
+		SignalManager.on_game_over.emit()
+	else:
+		create_boom()
