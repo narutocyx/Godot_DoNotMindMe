@@ -1,17 +1,31 @@
 extends CharacterBody2D
 
-const SPEED: float = 160.0
+const BULLET = preload("res://scenes/bullet/bullet.tscn")
+
+const FOV = {
+	ENEMY_STATE.PATROLLING: 60.0,
+	ENEMY_STATE.CHASING: 120.0,
+	ENEMY_STATE.SEARCHING: 100.0
+}
+
+const SPEED = {
+	ENEMY_STATE.PATROLLING: 60.0,
+	ENEMY_STATE.CHASING: 100.0,
+	ENEMY_STATE.SEARCHING: 80.0
+}
 
 enum ENEMY_STATE { PATROLLING, CHASING, SEARCHING }
 
 @export var patrol_points: NodePath
-@onready var warning: Sprite2D = $Warning
 
+@onready var warning: Sprite2D = $Warning
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var label: Label = $Label
 @onready var nav_agent: NavigationAgent2D = $NavAgent
 @onready var player_detect: Node2D = $PlayerDetect
 @onready var ray_cast_2d: RayCast2D = $PlayerDetect/RayCast2D
+@onready var gasp_sound: AudioStreamPlayer2D = $GaspSound
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var _waypoints: Array = []
 var _current_wp: int = 0
@@ -51,7 +65,7 @@ func get_fov_angle() -> float:
 	return 0.0
 	
 func player_in_fov() -> bool:
-	return get_fov_angle() < 60.0
+	return get_fov_angle() < FOV[_state]
 	
 func raycast_to_player() -> void:
 	player_detect.look_at(_player_ref.global_position)
@@ -69,7 +83,7 @@ func update_navigation() -> void:
 		#精灵朝向下一个路径目标点
 		sprite_2d.look_at(next_path_position)
 		#计算速度的朝向和大小
-		velocity = global_position.direction_to(next_path_position) * SPEED
+		velocity = global_position.direction_to(next_path_position) * SPEED[_state]
 		#移动
 		move_and_slide()
 	
@@ -93,6 +107,11 @@ func set_state(new_state: ENEMY_STATE) -> void:
 		
 	if new_state == ENEMY_STATE.SEARCHING:
 		warning.show()
+	elif new_state == ENEMY_STATE.CHASING:
+		SoundManager.play_gasp(gasp_sound)
+		animation_player.play("alert")
+	elif new_state == ENEMY_STATE.PATROLLING:
+		animation_player.play("RESET")
 	
 	_state = new_state
 
@@ -134,4 +153,17 @@ func set_label():
 	s += "Target:%s\n" % nav_agent.target_position
 	s += "PlayerDetected:%s\n" % player_detected()
 	s += "FOV:%.2f %s\n" % [get_fov_angle(), ENEMY_STATE.keys()[_state]]
+	s += "FOV:%s %s\n" % [player_in_fov(), SPEED[_state]]
 	label.text = s
+
+#shoot
+func shoot() -> void:
+	var b = BULLET.instantiate()
+	b.init(_player_ref.global_position, global_position)
+	get_tree().root.add_child(b)
+	SoundManager.play_laser(gasp_sound)
+
+func _on_shoot_timer_timeout() -> void:
+	if _state != ENEMY_STATE.CHASING:
+		return
+	shoot()
